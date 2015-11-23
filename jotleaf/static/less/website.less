@@ -1,0 +1,928 @@
+@bodySerifFamily: "adobe-garamond-pro",Georgia;
+@headerSansFamily: Lato,"Open Sans",sans-serif;
+
+@logoOrange: #FDCF66;
+@headerColor: #FFD073;
+@copyColor: #eee;
+@bodyBG: #fafafa;
+@hoverBG: #ffe;
+
+// same padding as we have on .container now
+@fullContentWidth: @gridRowWidth + 2*@gridGutterWidth; 
+
+// colors from lauren's comps
+@JLRed: #EB503D;
+@JLOrange: #ED7A36;
+@JLYellow: #EAC845;
+
+@successColor: #EEFAEA;
+@errorColor: #FAA;
+
+body {
+  background-color: @bodyBG;
+  font-family: @bodySerifFamily;
+  font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: .5em;
+  font-family: @headerSansFamily;
+}
+
+.js_activate {
+  display:none;
+}
+
+.text {
+  max-width: 40em;
+}
+
+.register-login {
+    font-size: 48px;
+    margin: 0;
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+
+.button(@yesText, @noText, @yesToNoText, @noToYesText) {
+  @yesStart: @successColor;
+  @yesEnd:  darken(@successColor, 5%);
+
+  @maybeStart: #fff;
+  @maybeEnd: #eee;
+
+  @noStart: @errorColor;
+  @noEnd: darken(@errorColor, 5%);
+
+  display: inline-block;
+  min-width: 120px;
+  text-align: center;
+  .border-radius(3px);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  color: #333;
+  border-width: 1px;
+
+  &.btn-yes {
+    .buttonBackground(@yesStart, @yesEnd);
+    &:before {
+      content: @yesText;
+    }
+  }
+  &.btn-no {
+    .buttonBackground(@maybeStart, @maybeEnd);
+    &:before {
+      content: @noText;
+    }
+  }
+  &.btn-yes-to-no {
+  .buttonBackground(@noStart, @noEnd);
+    &:before {
+      content: @yesToNoText;
+    }
+  }
+
+  &.btn-no-to-yes {
+    .buttonBackground(@yesStart, @yesEnd);
+    &:before {
+      content: @noToYesText;
+    }
+  }
+}
+
+.published {
+  .button("✓ Published", "Unpublished", "Unpublish", "Publish");  
+  margin: 6px 0;
+}
+
+.explanation {
+  color: #666;
+  font-size: 80%;
+}
+
+
+footer {
+  @color: #888;
+  margin-top: 17px;
+  margin-bottom: 17px;
+  padding-top: 17px;
+  color: @color;
+  letter-spacing: 1px;
+  font-family: @sansFontFamily;
+  text-align: center;
+
+  iframe {
+    top: 2px; // janky way of vertical-aligning
+  }
+
+  a {
+    color: @color;
+  }
+}
+
+
+// Used for containers that are stacked below another container inside of a
+// span*
+div.sub-row {
+  margin-top: @gridGutterWidth;
+}
+
+.btn-jotleaf {
+  .buttonBackground(@logoOrange, @logoOrange);
+}
+
+.ywot-transfer {
+    font-size: 16px;
+    background-color: #dfd;
+    border: 1px solid #cdc;
+    .border-radius(8px);
+    color: black;
+    padding: 4px;
+    margin: 2em;
+    text-align: center;
+    font-family: "Courier New";
+}
+
+.ywot-transfer .response {
+    padding: 0 4px;
+    text-decoration: underline;
+    cursor: pointer;
+    color: blue;
+}
+
+ul.messages, ul.errorlist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    .border-radius(4px);
+  }
+  li.success {
+    border: 1px solid #C8DCC2;
+    padding: 0.5em;
+    margin: 0 1em;
+    background: @successColor;
+  }
+}
+ul.errorlist li {
+  border: 1px solid #ccc;
+  padding: 0.3em;
+  margin: 0.5em 0;
+  background: @errorColor;
+  color: #000;
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  float: none;
+}
+
+.error {
+  display: none;
+  color: red;
+}
+
+body.home .page-list .msg {
+  color: #666;
+  text-align: center;
+}
+
+body.profile-page button.follow {
+  float: right;
+  margin-top: 4px; // make it look ok w/header :/
+}
+
+button.follow {
+  .button("Following", "Follow", "Unfollow", "Follow");
+}
+
+div.friends, div.followers, div.users-list{
+  border: 1px solid #ddd;
+  padding: 4px;
+  font-size: 16px;
+  margin-bottom: 16px;
+  color: #444;
+  display: none;
+}
+
+table.form_table {
+  th {
+    vertical-align: middle;
+    text-align: right;
+    font-weight:normal;
+    & > label{
+      vertical-align: inherit;
+    }
+  }
+  th, td {
+    padding-bottom: 1em;
+  }
+  tr {
+    margin-bottom: .5em;
+  }
+
+  // Hacky way to get errorlists
+  // that *aren't* form-level errors,
+  // i.e. only field-level ones
+  //ul.errorlist:not(:last-child) li {
+  //  border-bottom: 0;
+  //  margin-bottom: 0;
+  //  .border-bottom-right-radius(0);
+  //  .border-bottom-left-radius(0);
+  //}
+}
+
+div.news-feed-list div.news-feed-listing{
+  @padding: 8px;
+  padding-top: @padding;
+  padding-bottom: @padding;
+  border-bottom: 1px solid #eee;
+  position: relative ;
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  .listing-user {
+    position: relative;
+    top: @padding;
+    left: @padding;
+
+    img.screenshot {
+      float: left;
+      height: 60px;
+    }
+  }
+
+  .listing-container {
+    position: relative;
+    margin-left: 120px;
+
+    .user-link {
+      color: #111;
+      font-size: 22px;
+      padding-right: 2px;
+    }
+
+   .news-feed-listing-header {
+      position: relative;
+      height: 20px;
+
+      .news-listing-message {
+        color: #aaa;
+      }
+
+      .timeago {
+        color: #888;
+      }
+    }
+
+    .news-feed-listing-content {
+      .text-content, .image-content, .embed-content,
+      .membership-content, .page-content {
+        display: block;
+        padding: 4px 3px;
+
+      }
+      .text-content{
+        color: #444;
+      }
+    }
+
+    .news-feed-listing-footer {
+      color: #aaa;
+      padding-top: 2px;
+
+      a {
+        color: #aaa;
+        &:hover{
+          color: blue;
+        }
+      }
+    }
+  }
+
+  img.image-preview {
+    height: 100px;
+  }
+}
+
+div.page-list div.page-listing {
+  @padding: 8px;
+
+  padding-top: @padding;
+  padding-bottom: @padding;
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  img.screenshot {
+    float: left;
+    height: 60px;
+  }
+
+  .text-container {
+    // overflow:hidden triggers a block formatting context --
+    // see http://stackoverflow.com/questions/1260122/expand-div-to-take-remaining-width
+    overflow: hidden;
+    padding-left: @padding;
+    padding-top: @padding;
+  }
+
+  .page-listing-main {
+    display: block;
+    font-size: 20px;
+    padding: 2px 0;
+
+    .page-title {
+      float: left;
+    }
+
+    .view-count {
+      float: right;
+    }
+
+    &:hover {
+      background-color: @hoverBG;
+      cursor: pointer;
+      .view-count {
+        color: @linkColorHover;
+      }
+    }
+  }
+
+  .view-count, .options-button {
+    color: #888;
+  }
+
+  .page-listing-sub {
+    .last-activity {
+      display: block;
+      float: left;
+    }
+
+    .last-activity, .last-activity a {
+      color: #666;
+    }
+
+    .options-button {
+      float: right;
+
+      .expander {
+        visibility: hidden;
+        font-size: 80%;
+      }
+
+      &:hover {
+        color: @linkColorHover;
+        cursor: pointer;
+        .options-inner {
+          background-color: @hoverBG;
+        }
+        .expander {
+          visibility: inherit;
+        }
+      }
+    }
+  }
+
+}
+
+hr {
+	margin: 16px 0px;
+  border-bottom: 1px solid #666;
+}
+
+/* For Home Page */
+#headerDecoration
+{
+  background-image: url('@{STATIC_URL}images/dots_border2.png');
+  width: 100%;
+  height: 90px;
+  background-repeat:repeat-x;
+}
+
+header h1
+{
+  text-align: center;
+}
+
+ul.claim-notifications {
+  background-color: #efe;
+  padding: .5em;
+  .border-radius(5px);
+  margin: 16px;
+  color: #555;
+
+  h3 {
+    color: #555;
+  }
+
+  li {
+    margin-left: 3em;
+
+    a {
+      display: inline-block;
+      padding: 1px;
+    }
+  }
+}
+
+div.tip {
+  color: #666;
+  a {
+    color: #66f;
+  }
+  font-style: italic;
+  font-size: 80%;
+  margin-top: 1em;
+}
+
+.optionsbox-outer {
+  overflow: hidden;
+  max-height: 0;
+}
+
+.optionsbox {
+  background-color: @bodyBG;
+  padding: 4px;
+
+  .option {
+    padding: 8px 2px;
+    border-bottom: 1px solid #ccc;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .option.title input {
+    width: 400px; // coupled w/jquery-token-input.less
+  }
+
+
+  input.delete, input.clear {
+    font-size: 90%;
+  }
+
+  .progress {
+    font-style: italic;
+    margin-top: 5px;
+    color: #666;
+  }
+}
+
+
+// Nav bar stuff
+// -------------------------
+
+@navbarHeight:                    40px;
+@navbarBorderWidth:               1px;
+@navbarFullHeight:                @navbarHeight + @navbarBorderWidth;
+@navbarBackground:                white;
+@navbarBackgroundHighlight:       @grayDark;
+
+@navbarTextColor:                 @black;
+@navbarLinkColor:                 @black;
+@navbarLinkColorHover:            rgb(235, 80, 61);
+@navbarLinkColorActive:           @navbarLinkColorHover;
+@navbarLinkBackgroundHover:       #f0f0f0;
+@navbarLinkBackgroundActive:      transparent;
+
+@navbarBorderColor:               #eee;
+@navbarDividerColor:              @navbarLinkBackgroundHover;
+
+@navbarSearchBackground:          lighten(@navbarBackground, 25%);
+@navbarSearchHeight:              20px;
+@navbarSearchBackgroundFocus:     @white;
+@navbarSearchBorder:              darken(@navbarSearchBackground, 30%);
+@navbarSearchPlaceholderColor:    #ccc;
+
+.navbarVerticalAlign(@elementHeight) {
+  margin-top: (@navbarHeight - @elementHeight) / 2;
+}
+
+.navbar {
+  height: @navbarFullHeight;
+  color: @navbarTextColor;
+  background-color: @bodyBG;
+  border-bottom: @navbarBorderWidth solid @navbarBorderColor;
+
+  .navbar-inner {
+    min-height: @navbarHeight;
+    width: @fullContentWidth;
+    margin: 0 auto;
+  }
+
+  // Website or project name
+  .brand {
+    height: @navbarFullHeight;
+    float: left;
+    display: block;
+    // Vertically center the text given @navbarHeight
+    padding: 0 @gridGutterWidth;
+    background-color: @logoOrange;
+    img {
+      @elementHeight: 35px;
+      height: @elementHeight;
+      // Add borderWidth to margin, because it also got added to .brand's height. Otherwise,
+      // the logo will be offset from the container's bottom edge by @borderWidth pixels.
+      margin-top: @navbarHeight - @elementHeight + @navbarBorderWidth; 
+    }
+  }
+
+  .divider-vertical {
+    height: @navbarHeight;
+    width: 1px;
+    overflow: hidden;
+    background-color: @navbarDividerColor;
+  }
+
+  .infobar {
+    @height: 20px;
+    line-height: @height;
+    position: relative;
+    float: left;
+    margin-left: @gridGutterWidth;
+    .navbarVerticalAlign(@height); // Vertically center in navbar
+    margin-bottom: 0;
+    font-size: 18px;
+  }
+
+  //.navbar-search {
+  //  position: relative;
+  //  float: left;
+  //  margin-left: 16px;
+  //  .navbarVerticalAlign(20px); // Vertically center in navbar
+  //  margin-bottom: 0;
+  //  .search-query {
+  //    height: 20px;
+  //    padding: 4px 9px;
+  //    color: @white;
+  //    background-image: url("@{STATIC_URL}images/nounproject/noun_project_95.svg");
+  //    background-size: 14px auto;
+  //    background-repeat: no-repeat;
+  //    background-position: 98% 50%;
+  //    background-color: @navbarSearchBackground;
+  //    border: 1px solid @navbarSearchBorder;
+  //    .box-shadow(~"inset 0 1px 2px rgba(0,0,0,.1), 0 1px 0 rgba(255,255,255,.15)");
+  //    .transition(none);
+  //    .placeholder(@navbarSearchPlaceholderColor);
+
+  //    &:focus {
+  //      padding: 5px 10px;
+  //      color: @grayDark;
+  //      text-shadow: 0 1px 0 @white;
+  //      background-color: @navbarSearchBackgroundFocus;
+  //      border: 0;
+  //      .box-shadow(0 0 3px rgba(0,0,0,.15));
+  //      outline: 0;
+  //    }
+  //  }
+  //}
+
+
+  .nav {
+    position: relative;
+    left: 0;
+    display: block;
+    float: left;
+    margin: 0 10px 0 0;
+    height: @navbarHeight;
+
+    &.pull-right {
+      float: right;
+      margin-left: 10px;
+      margin-right: 0;
+      font-family: @headerSansFamily; 
+    }
+
+    & > li {
+      display: block;
+      float: left;
+
+      & > a, & > .navvish {
+        float: none;
+        display: block;
+        font-weight: bold;
+        font-size: 14px;
+
+        // Vertically center the text given @navbarHeight
+        @elementHeight: 20px;
+        @paddingTop: (@navbarHeight - @elementHeight) / 2;
+        height: @navbarHeight;
+        padding-top: @paddingTop;
+        padding-left: @gridGutterWidth/2;
+        padding-right: @gridGutterWidth/2;
+        // Put padding bottom so that the clickable target is bigger:
+        padding-bottom: @navbarHeight - @paddingTop - @elementHeight + 1;
+        line-height: 19px;
+        text-decoration: none;
+      }
+
+      & > a {
+        color: @navbarLinkColor;
+        &:hover{
+          background-color: @navbarLinkBackgroundHover; 
+          color: @navbarLinkColorHover;
+          text-decoration: none;
+        }
+      }
+      & > span.navvish {
+        color: #aaa;
+      }
+    }
+
+    li.page-options-dropdown.toggling {
+      background-color: @navbarLinkBackgroundHover;
+    }
+
+    li.dropdown {
+      cursor: pointer;
+
+      &.open {
+        background-color: @navbarLinkBackgroundHover;
+      }
+
+      &:hover {
+        background-color: @navbarLinkBackgroundHover;
+        color: @navbarLinkColor;
+        a { 
+          color: @navbarLinkColor !important;
+        }
+
+        &:after {
+          @borderWidth: 10px;
+          width: 0;
+          height: 0;
+          border-color: transparent;
+          border-style: solid;
+          border-width: @borderWidth;
+          margin-left: -@borderWidth;
+          border-top-color: @navbarLinkBackgroundHover;
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          content: '';
+          z-index: 1;
+        }
+
+      }
+
+      &.pull-right ul.dropdown-menu li {
+        text-align: right;
+      }
+
+      ul.dropdown-menu {
+        .border-radius(0);
+        .box-shadow(none);
+        min-width: 140px;
+        background-color: @navbarLinkBackgroundHover;
+        border-color: @navbarLinkBackgroundHover;
+        border-width: 1px;
+        border-top: 0;
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+body.home .nav li.home,
+body.myprofile .nav li.myprofile,
+body.login .nav li.login,
+body.register .nav li.register,
+body.pages .nav li.pages
+{
+  a, a:hover {
+    color: @navbarLinkColorActive;
+    text-decoration: none;
+    background-color: @navbarLinkBackgroundActive;
+  }
+}
+
+// ?
+html, body, #spa_container{
+  height: 100%;
+}
+
+.container {
+  @containerPadding: @gridGutterWidth;
+  width: @gridRowWidth + 2*@containerPadding;
+  padding-left: @containerPadding;
+  padding-right: @containerPadding;
+  position: relative;
+  background-color: white;
+}
+
+.container.main {
+  padding-top: 30px;
+  min-height: 520px;
+}
+
+.footer-container {
+  .border-bottom-left-radius(4px);
+  .border-bottom-right-radius(4px);
+  padding-top: @gridGutterWidth;
+}
+
+
+// Full screen image stuff
+// -----------------------------
+// modeled off twitter
+
+.front-outer {
+  clear: both; // just in case a navbar element out too much
+  position: relative;
+}
+
+.front-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: none repeat scroll 0% 0% white;
+  overflow: hidden; // don't show image overflow
+  min-width: @fullContentWidth;
+  img {
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    min-width: 100%;
+    min-height: 100%;
+  }
+}
+
+
+.body-copy {
+  font-family: @bodySerifFamily;
+  color: @copyColor;
+}
+
+.wf-loading .body-copy, 
+.wf-loading .tk-raleway,  
+.wf-loading .tk-wait {
+  visibility: hidden;
+}
+
+body.landing-page {
+  .main.container {
+    padding-top: 100px;
+    background-color: rgba(0, 0, 0, .7);
+    min-height: 520px; // min-height here instead of front-container so it gets the bg just above
+    font-size: 20px;
+    line-height: 1.5em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: @headerColor;
+  }
+
+  .hanging-leaf {
+    height: 120px;
+    @bgImageColor: #2E0D0C; // taken from the big landing-page image w/screen on top
+    #gradient > .vertical-three-colors(@bgImageColor, @JLRed, 50%, @logoOrange);
+  }
+
+  .try-it-now {
+    text-align: center;
+    margin-top: 15px;
+    font-family: @headerSansFamily;
+    font-size: 64px;
+    letter-spacing: 1px;
+    line-height: 1.5em;
+    font-variant: small-caps;
+    color: @navbarLinkColorHover;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    &:hover {
+      background-color: @hoverBG;
+      text-decoration: underline;
+    }
+  }
+}
+
+////
+body.landing-page, body.register, body.login {
+  @inputHeight: 40px; 
+  @inputVerticalSpace: 5px;
+
+  form.registration-form {
+    padding-bottom: 32px;
+  }
+
+  input.input-with-errors {
+    border-color: @formErrorColor;
+    border-width: 2px 2px 0px 2px;
+    border-style: solid;
+    .border-top-left-radius(@formErrorBorderRadius);
+    .border-top-right-radius(@formErrorBorderRadius);
+  }
+
+  ul.errors {
+    padding: 0;
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .registration-input {
+    width: 100%;
+    padding: @inputVerticalSpace 0;
+    margin: 6px auto;
+    line-height: 0; // why??
+    input {
+      font-size: 17px;
+      padding-left: 4px;
+      width: 100%;
+      height: @inputHeight;
+      display: block;
+    }
+
+    ul.errors li {
+      .border-top-left-radius(0);
+      .border-top-right-radius(0);
+      border-top: 0;
+      border-width: 2px;
+      border-color: @formErrorColor;
+      padding-top: 4px;
+      padding-bottom: 2px;
+    }
+
+  }
+  .signup-btn {
+    float: right;
+    margin-top: @inputVerticalSpace;
+    height: @inputHeight;
+    background: @logoOrange;
+    border: none;
+    color: rgb(60, 47, 19);
+    text-shadow: 1px 1px rgb(213, 167, 65);
+    .border-radius(4px);
+    &:hover {
+      text-shadow: 1px 1px 1px lighten(rgb(213, 167, 65), 60%);
+    }
+  }
+}
+
+.typekit-badge {
+  // Hack. I tried unchecking the box in my kit settings, and publishing, but it still won't
+  // go away.
+  display: none !important;
+}
+
+p.bio {
+  font-style: italic;
+  font-size: 16px;
+  &:before {
+    content: '“';
+  }
+  &:after {
+    content: '”';
+  }
+}
+
+div.suggested-friends {
+  div.users-list{
+    border: none;
+  }
+
+  div.suggested-user{
+    .reject-btn {
+      display: none;
+      cursor: pointer;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    &:hover {
+        background-color: @hoverBG;
+        .reject-btn { 
+          display: block;
+        }
+    }
+    button {
+      font-size: 12px;
+      padding-top: 0;
+      padding-bottom: 0;
+      min-width: 80px;
+      margin-left: 6px;
+    }  
+  }
+
+}
+
+// Hack for browsers that don't support placeholder
+label.placeholder {
+  color: #999;
+  display: none;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+html.lt-ie10 label.placeholder {
+  display: block;
+}

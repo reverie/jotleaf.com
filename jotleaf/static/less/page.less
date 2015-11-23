@@ -1,0 +1,1003 @@
+// TODO: clean this scoping up a bit
+
+@optionsPaneTopRowHeight: 30px;
+@optionsPaneRadius: 8px;
+
+body.page-view { 
+  overflow: hidden;
+
+  // Why we can't have nice things: because dragging
+  // with the mouse down makes the browser think you're 
+  // selecting text, which sets cursor: text. We can prevent
+  // this by doing e.preventDefaut() in jquery.scrollview's
+  // mousedown handler, but then we don't get other default
+  // behaviors like clicking out of a form field to deselect
+  // it.
+  //.scrollview-dragging {
+  //  cursor: move;
+  //}
+
+  @chromeOpacity: 80;
+  @logoColorDesat: #ddd;
+
+  .num-online {
+    position: absolute;
+    top: @navbarFullHeight;
+    left: 0;
+    background-color: @logoColorDesat;
+    .opacity(@chromeOpacity);
+    padding: 0 3px;
+    .border-bottom-right-radius(4px);
+    z-index: @topChromeZ;
+    font-variant: small-caps;
+  }
+
+  .tutorial {
+    @margin: 8px;
+    position: absolute;
+    top: @navbarFullHeight + @margin;
+    left: @margin;
+    background-color: @hoverBG;
+    padding: @margin;
+    padding-bottom: 0;
+    z-index: @topChromeZ;
+
+    @_brandImgWidth: 118px; // hax
+    @_brandFullWidth: @_brandImgWidth + 2*@gridGutterWidth;
+    @_extraTitleMargin: @gridGutterWidth;
+    @size: @_brandFullWidth + @_extraTitleMargin - @margin;
+    width: @size;
+
+    // Tried this green bg -- it just didn't look good
+    //.transition(background-color .3s);
+    //&.step-completed {
+    //  background-color: #f6fff6;
+    //}
+
+    .header {
+      margin-bottom: @margin;
+    }
+    .title {
+      font-weight: bold;
+      float: left;
+    }
+    .steps {
+      float: right;
+    }
+
+    .instructions li {
+      margin-left: 1em;
+      margin-top: .5em;
+    }
+
+    .instructions input {
+      font-size: 7px;
+      width: 100%;
+    }
+
+    .prev-step, .next-step {
+      color: #ccc;
+      width: 16px;
+      display: inline-block;
+      font-family: "Times New Roman";
+      text-align: center;
+      border: 1px solid #eee;
+    }
+
+    &.has-prev .prev-step,
+    &.has-next .next-step 
+    {
+      color: inherit;
+      cursor: pointer;
+      &:hover {
+        font-weight: bold;
+      }
+    }
+
+    .footer {
+      font-size: 80%;
+      line-height: 1.5em;
+      color: #ddd;
+      margin-top: 2em;
+      span:hover {
+        color: #666;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      span.kill {
+        display: none;
+        float: right;
+      }
+      span.close {
+        float: left;
+      }
+    }
+  }
+
+  // Hide uservoice
+  #uvTab {
+    display: none !important;
+  }
+
+  .navbar {
+    @transitionSpeed: .2s;
+    position: fixed;
+    z-index: @topChromeZ;
+    width: 100%;
+    .opacity(@chromeOpacity);
+    .transition(opacity @transitionSpeed);
+
+    .brand {
+      background-color: @logoColorDesat;
+      .transition(background-color @transitionSpeed);
+    }
+
+    .nav.pull-right {
+      margin-right: 0;
+    }
+
+    .navbar-inner {
+      width: auto; // take up full width
+    }
+
+    @infobarColor: #555;
+    @infobarDimColor: #777;
+    .infobar {
+      color: @infobarDimColor;
+      a {
+        color: @infobarDimColor;
+      }
+    }
+
+    &:hover {
+      .opacity(100);
+      .brand {
+        background-color: @logoOrange;
+      }
+      .infobar {
+        color: @infobarColor;
+        a {
+          color: @linkColor;
+        }
+      }
+    }
+
+  }
+
+  .modal-overlay {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: @topChromeZ+1;
+
+    @bg-color: fadeout(@oldLogoDarkColor, 20%);
+
+    .modal-dialog {
+      position: relative;
+      padding: 20px;
+      top: 50%;
+      left: 50%;
+      margin-top: -80px;
+      margin-left: -25%;
+      .border-radius(10px);
+      width: 50%;
+      height: 160px;
+      border: 2px dashed fadeout(@oldLogoMediumColor, 30%);
+
+      background-color: @bg-color;
+      @compound-shadow: 0 0 0 4px @bg-color, 0 3px 7px 4px rgba(0,0,0,0.3);
+      .box-shadow(@compound-shadow);
+
+    }
+
+    .modal-message{
+      color:  @logoColorLight;
+      text-shadow: 2px 2px 2px @oldLogoDarkColor;
+    }
+
+    .link-home {
+      padding: 20px 0;
+      
+      .fakelink{
+        color: #1BB0FA;
+        &:hover{
+          color: #B2E5FF;
+        }
+      }
+    }
+  }
+
+  .page {
+    float:left;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    .user-select-none;
+
+    &.loading {
+      background-image: url("@{STATIC_URL}images/loading.gif");
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  }
+
+  div.page-view {
+    height: 100%;
+    width: 100%;
+    float: left;
+    position: relative;
+    overflow: hidden;
+
+    // Original default font-family. Changing
+    // this will change everyone's page.
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    canvas.bg-canvas {
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+    }
+  }
+
+  .home-button {
+    display: none;
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: @bottomChromeZ;
+    cursor: pointer;
+    .opacity(80);
+  }
+
+
+  .optionsPanel {
+    display: none;
+    .box-sizing-border;
+    z-index: @middleChromeZ;
+    position: absolute;
+    top: 32px + @navbarFullHeight;
+    .border-top-left-radius(@optionsPaneRadius);
+    .border-bottom-left-radius(@optionsPaneRadius);
+    right: 0;
+    width: 400px;
+    background-color: #eee;
+    border: 1px solid  rgba(50, 50, 50, .4);
+    border-right: none;
+
+    // need a max-height prop, otherwise scrollbars don't get activated. 90%
+    // ensures that the bottom-most parts of the are still reachable when the
+    // window is small.
+    max-height: 90%;
+    overflow-y: auto;
+
+    .page-options-inner {
+      background-color: #eee;
+    }
+    
+    .option-set {
+      padding: 16px;
+      margin-bottom: 8px;
+      background-color: #f5f5f5;
+      h3 {
+        padding-bottom: 4px;
+      }
+      .option-set {
+        background-color: #f0f0f0;
+        padding: 8px;
+        .border-radius(8px);
+      }
+    }
+    .bootstrap-close {
+      .opacity(50);
+      position: absolute;
+      height: @optionsPaneTopRowHeight - 1; // don't cover bottom-border
+      background-color: #eee;
+      border-width: 0;
+      top: 0;
+      right: 0;
+    }
+    .option {
+      margin-bottom: 8px;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: normal;
+    }
+
+    h3 {
+      color: #555;
+      margin-bottom: 0;
+    }
+    h4 {
+      color: black;
+    }
+    label {
+      display: inline;
+      margin: 0;
+      font-weight: inherit;
+      font-size: inherit;
+    }
+    div.label {
+      color: #444;
+      font-size: 14px;
+    }
+    .help {
+      color: #666;
+      font-style: italic;
+    }
+
+    label.custom-texture-change {
+      border: 0;
+      position: relative;
+      div {
+        position: absolute;
+        bottom: -3px; /* oh god the hax */
+        font-weight: normal;
+        color: #33f;
+        text-decoration: underline;
+      }
+    }
+  }
+
+
+  .optionsPanel.itemEditor {
+    width: 250px;
+    padding: 
+    padding: 8px 0px 0px 8px;
+
+    .option-set {
+      margin-bottom: 0;
+    }
+  }
+
+  .textOptions, .imageOptions, .embedOptions {
+    .linkInput {
+      width: 100%;
+    }
+
+    div.option.direct-link {
+      margin-top: 1em;
+      padding-top: .5em;
+      border-top: 1px dashed #ccc;
+    }
+
+    textarea.direct-link {
+      width: 100%;
+      display: block;
+      color: #555;
+      font-family: Georgia;
+      white-space: pre;
+    }
+
+    .tip {
+      margin: 0;
+      margin-top: 4px;
+      font-style: normal;
+      text-align: right;
+    }
+  }
+
+  .optionsPanel.pageOptions {
+    overflow-x: hidden; // for close-button overflow
+    padding: 0;
+
+    .textureOption {
+      width: 50px;
+      text-align: center;
+      height: 40px;
+      float: left;
+      padding-top: 4px;
+      margin: 4px;
+      border: 1px solid gray;
+      text-shadow:1px 1px 3px white;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  } 
+
+  .colorpicker
+  {
+    z-index: @middleChromeZ;
+    min-width: 0px !important; //bs has a value for dropdowns
+    padding: 4px;
+  }
+
+  @colorInputWidth: 200px; /* enough room to fit long rgba() entries */
+  @colorInputBgOffset: 34px;
+
+  .colorPickerInput
+  {
+    background: url("@{STATIC_URL}images/colorpickerButton-Bigger.png") right no-repeat;
+    width: @colorInputWidth;
+    height: 27px;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    text-shadow: -1px -1px 1px white, -1px 1px 1px white, 1px -1px 1px white, 1px 1px 1px white;
+    color: black;
+    background-position: (@colorInputWidth - @colorInputBgOffset) center;
+  }
+
+  .item {
+
+    position: absolute;
+
+    max-height: @MAX_ITEM_SIZE;
+    max-width: @MAX_ITEM_SIZE;
+
+    .user-select-none;
+    .content {
+      height: 100%;
+      .box-sizing-border;
+    }
+
+    // Transparent 1px border so that it doesn't move by a pixel
+    // when it's selected 
+    border: 1px solid transparent;
+
+    &.selected {
+      //todo add a style for IE because there's no border image support
+      z-index: 500 !important;
+      border-width: 1px;
+      .user-select-text;
+      &:focus{ outline: none; } 
+      div:focus {outline:none;}
+    }
+
+    &.adminning {
+      border: 1px dashed #333;
+    }
+    
+    .content {
+      max-height: @MAX_ITEM_SIZE;
+      max-width: @MAX_ITEM_SIZE;
+      overflow: hidden;
+    }
+
+    .delete-btn {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      right: 0;
+      height: 12px;
+      width: 12px;
+      .border-radius(8px);
+      opacity: .5;
+      background-color: #eee;
+      // + 1 puts it in front of resize-handles
+      z-index: @bottomChromeZ+1; 
+      &:hover {
+        background-color: red;
+        opacity: 1;
+      }
+
+      img {
+        height: 100%;
+        width: 100%;
+        display: block;
+      }
+    }
+
+    .edit-btn {
+      position: absolute;
+      cursor: pointer;
+      // + 1 puts it in front of resize-handles
+      z-index: @bottomChromeZ+1;
+      opacity: .8;
+      bottom: 0px;
+      cursor: pointer;
+      &:hover {
+        background-color: white;
+        .border-radius(100px); // circularize
+      }
+    }
+
+    .grip {
+      height: 100%;
+      position: absolute;
+      top: 0; 
+      // 'left' is set in JS
+      cursor: pointer;
+      background-image: url('@{STATIC_URL}images/nounproject/grip_cropped_transparent4.png');
+      background-size: 100% auto;
+      background-color: rgba(255,255,255,.2);
+    }
+  }
+
+  .textitem {
+    white-space: pre; //assume no-width
+
+    // Can't set style on A tag directly, because it doesn't
+    // have the correct foreground color set. The underline
+    // then appears in a different color than the text!
+    a.link-to-url .content {
+      text-decoration: underline;
+    }
+
+    .content {
+      padding: 2px; //moved the padding here, so bg colors look nicer with .selected aniation -- NB coupled with insertPending
+      line-height: 1em;
+      word-wrap: break-word;
+      // Fun styles for later
+      // .box-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
+      // .border-radius(4px);
+      div {
+        min-height: 1em;
+        line-height: 1em;
+      }
+      a {
+        // Make links in text items match the surrounding style
+        color: inherit;
+        text-decoration: underline;
+      }
+    }
+
+    .content.with-width {
+      white-space: pre-wrap;
+    }
+
+    .content.no-width {
+      //This prevents text item views from wrapping when they hit the boundary of a tile. 
+      white-space: pre;
+    }
+
+  }
+
+  .insert-img-btn {
+    cursor: pointer;
+    position: absolute;
+    background-color: rgba(255, 255, 255, .8);
+    z-index: @bottomChromeZ;
+    opacity: .8;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .item.imageitem {
+    // Like with text items, prevent images from squishing
+    // up against the boundary of the containing tile.
+    white-space: pre;
+    .content {
+      border-style: solid;
+    }
+
+    .content.with-width {
+      width: 100%;
+      height: 100%;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .content.no-width {
+      height: auto;
+      width: auto;
+    }
+
+    &.loading {
+      background-color: rgba(128, 128, 128, .05);
+      //border-width: 0;
+      //background-image: url("@{STATIC_URL}images/loading.gif");
+      //background-position: center;
+      //background-repeat: no-repeat;
+    }
+
+    &.selected {
+      border: 1px dashed #333;
+    }
+  }
+
+  .item.embeditem {
+    &.engaged {
+      .box-shadow(0 0 5px 1px rgba(255,255,255,0.5));
+    }
+
+    &.loading {
+      background-color: rgba(128, 128, 128, .05);
+    }
+
+    .content.with-width {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      top: 0;
+      left: 0;
+
+      > * {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .invisible-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      // Hackiness needed for IE9, otherwise doesn't intercept mouse events
+      // on transparent background
+      background: #fff;
+      z-index: 1;
+      .opacity(0);
+    }
+
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+    // &.selected {
+    //   pointer-events: auto;
+    // }
+  }
+
+
+  .item.soundclouditem .content {
+    border: 5px solid #333;
+  }
+
+  .item-overlay {
+    position: absolute;
+    top:0;
+    left:0;
+    height:100%;
+    width:100%;
+    cursor:pointer;
+  }
+
+  .tilingcanvas-canvas {
+    margin: 0;
+    padding: 0;
+    border: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+  }
+
+  .tilingcanvas-tile {
+    margin: 0;
+    padding: 0;
+    border: none;
+    position: absolute;
+    .box-sizing-border;
+    .user-select-none;
+  }
+
+  .tilingcanvas-tile.debug {
+    border-top: 1px solid red;
+    border-left: 1px solid green;
+    border-right: 1px solid blue;
+    border-bottom: 1px solid yellow;
+  }
+
+  .icon-external {
+    background: url(../images/nounproject/noun_project_3878.svg) center right no-repeat;
+    background-size: 12px;
+    padding:0 18px 0 0;
+  }
+
+  // Theme override for page interface 
+  ul.token-input-list-jotleaf,div.token-input-dropdown-jotleaf {
+      width: 350px;
+  }
+
+  @activityBgColor: rgba(0, 0, 0, 0.4);
+  @arrowSize: 12px;
+  .activity-notification {
+    cursor: pointer;
+    position: absolute;
+    z-index: @bottomChromeZ;
+    padding: 3px 6px;
+    color:  @oldLogoColorLight;
+    text-shadow: 2px 2px 2px @oldLogoDarkColor;
+
+
+    &.top {
+      margin-top: @arrowSize;
+    }
+    &.bottom {
+      margin-bottom: @arrowSize;
+    }
+    &.left {
+      // left: 0%;
+      margin-left: @arrowSize;
+    }
+    &.right {
+      margin-right: @arrowSize;
+    }
+  }
+
+  .arrow-box {
+    background: @activityBgColor;
+    .border-radius(2px);
+
+    &:after{
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: rgba(136, 183, 213, 0);
+      border-width: 10px;
+    }
+    // The only way to dynamically style 
+    // pseudo elements
+    // These lightness classes are for dealing
+    // with dark backgrounds on pages.
+    // We calculate average lightness and
+    // assign a class corresponding to it
+    &.lightness-10 {
+      @lightness10bg: lighten(@activityBgColor, 80%);
+      background: @lightness10bg;
+      &.top:after {
+          border-bottom-color: @lightness10bg;
+      }
+      &.right:after {
+          border-left-color: @lightness10bg;
+      }
+      &.bottom:after {
+          border-top-color: @lightness10bg;
+      }
+      &.left:after {
+          border-right-color: @lightness10bg;
+      }
+    }
+    &.top:after{
+      bottom: 100%;
+      left: 50%;
+      border-bottom-color: @activityBgColor;
+      margin-left: -10px;
+    }
+    &.bottom:after{
+      top: 100%;
+      left: 50%;
+      border-top-color: @activityBgColor;
+      margin-left: -10px;
+    }
+    &.left:after{
+      right: 100%;
+      top: 50%;
+      border-right-color: @activityBgColor;
+      margin-top: -10px;
+    }
+    &.right:after{
+      left: 100%;
+      top: 50%;
+      border-left-color: @activityBgColor;
+      margin-top: -10px;
+    }
+  }
+
+  .popup {
+    position: absolute;
+    z-index: @bottomChromeZ;
+    padding: 6px;
+    color:  @oldLogoColorLight;
+    text-shadow: 1px 1px 2px @oldLogoDarkColor;
+    white-space: nowrap;
+    top: @arrowSize;
+    left: 40px;
+    .border-radius(5px);
+    .yes, .no {
+      font-variant: small-caps;
+      color: #eee;
+      text-shadow: #555;
+      margin-left: 4px;
+    }
+    .yes:hover {
+      color: #1f1;
+      text-shadow: 1px 1px 2px #242;
+    }
+    .no:hover {
+      color: #f11;
+      text-shadow: 1px 1px 2px #733;
+    }
+    &.error{
+      padding: 10px;
+      .border-radius(8px);
+      .box-shadow(0 0 10px 2px rgba(226, 17, 17, 0.88));
+    }
+
+    // @bg-color: fadeout(@oldLogoDarkColor, 20%);
+    // &.modal-dialog {
+    //   .border-radius(10px);
+    //   border: 1px dashed fadeout(@oldLogoMediumColor, 30%);
+    //   background-color: @bg-color;
+    //   @compound-shadow: 0 0 0 4px @bg-color, 0 3px 7px 4px rgba(0,0,0,0.3);
+    //   .box-shadow(@compound-shadow);
+    // }
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .minimap-outer {
+    @sideWidth: 14px;
+    @elementHeight: 150px;
+    @elementWidth: 220px;
+    @canvasHeight: 150px;
+    @canvasWidth: @elementWidth - (2 * @sideWidth);
+    @outerMargin: 14px;
+    position: fixed;
+    left: 0px;
+    margin-left: 0;
+    bottom: 0px;
+
+    // This silliness is needed to get rid of 
+    // 4px spacing between inline-block divs
+    font-size: 0;
+    height: @elementHeight+@outerMargin;
+    width: @elementWidth+@outerMargin;
+    background: transparent;
+    z-index: @topChromeZ;
+    .border-radius(4px);
+    .transition(~"margin-left 400ms ease, display 400ms ease");
+    &.minimized {
+      margin-left: -@elementWidth
+    }
+
+
+    .minimap-container {
+      position: relative;
+      left: @outerMargin;
+      margin-left: 0;
+      // bottom: @outerMargin;
+
+      // This silliness is needed to get rid of 
+      // 4px spacing between inline-block divs
+      font-size: 0;
+      height: @elementHeight;
+      width: @elementWidth;
+
+      // This gets dynamically overriden based on page bg_color
+      background: rgba(255, 255, 255, 0.1);
+      .border-radius(4px);
+
+
+
+      > div {
+        display: inline-block;
+      }
+
+      .minimap-left, .minimap-right {
+        position: relative; 
+        // display: inline-block;
+        height: 100%;
+        width: @sideWidth;
+        background: rgba(0, 0, 0, 0.15); 
+      }
+
+      .minimap-inner {
+        position: relative;
+        // display: inline-block;
+        overflow: hidden;
+        height: @canvasHeight;
+        width: @canvasWidth;
+        background: rgba(0, 0, 0, 0.1);
+        // left: (@elementWidth - @canvasWidth)/2;
+      }
+
+      canvas.minimap-canvas {
+        width: 100%;  
+        height: 100%;
+        position: absolute;
+      }
+
+      div.view-rect {
+        position: relative;
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      div.home-rect {
+        position: absolute;
+        border: 1px solid rgba(255, 255, 220, 0.5);
+        // .border-radius(2px);
+      }
+
+      .minimap-right {
+        cursor: pointer;
+        .border-top-right-radius(4px);
+        .border-bottom-right-radius(4px);
+        &:hover {
+          background: rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      .minimap-left {
+        .border-top-left-radius(4px);
+        .border-bottom-left-radius(4px);
+      }
+      div.minimap-minimize-btn {
+        position: absolute;
+        width: 100%;
+        font-size: 24px;
+        color: white;
+        @elementHeight: 26px;
+        height: @elementHeight;
+        text-align: center;
+        top: 50%;
+        margin-top: -@elementHeight/2;
+      }
+    }
+  }
+  .ignore-mouse {
+    pointer-events: none;
+  }
+}
+
+
+.tabs-pane {
+  display: none;
+  &.active{
+    display: block;
+  }
+}
+
+.tabs-nav {
+  @tabBgColor: #eeeeee;
+  @outlineColor: #cccccc;
+  margin-bottom: 8px;
+  height: @optionsPaneTopRowHeight;
+  border-bottom: 1px solid @outlineColor;
+
+  .tabs-tab {
+    display: block;
+    float: left;
+    height: @optionsPaneTopRowHeight;
+    line-height: 20px;
+    margin-bottom: -1px;
+    padding: 4px 8px;
+    border-right: 1px solid @outlineColor;
+    border-bottom: 1px solid transparent;
+
+    cursor: pointer;
+    color: #444;
+    font-family: @headerSansFamily;
+    
+    &:hover {
+      background: #ccc;
+      border-bottom-color: @outlineColor;
+    }
+
+    &.active{
+      cursor: default;
+      background-color: @tabBgColor;
+      &:hover{
+        background-color: @tabBgColor;
+        border-bottom-color: transparent;
+      }
+    }
+  } 
+  .tabs-tab.first {
+    .border-top-left-radius(@optionsPaneRadius);
+  }
+}
+
+.loading-container {
+    height: 100px;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 200px;
+    border: 2px dashed rgba(0, 0, 0, 0.2);
+
+    &.lighter-bg {
+      background-color: rgba(204, 204, 204, 0.4);
+    }
+
+    .spinner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+    }
+}
+
+

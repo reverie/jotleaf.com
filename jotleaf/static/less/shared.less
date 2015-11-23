@@ -1,0 +1,128 @@
+/*
+ * shared.less
+ * Styles shared between the main website and the
+ * page interface.
+ */
+
+// Reset box sizing
+* {
+  .box-sizing(border-box);
+}
+
+body {
+    color: #333;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: normal;
+    line-height: 18px;
+    font-size: 13px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+}
+
+ul {
+  margin: 0;
+}
+
+.border-top-right-radius(@radius) {
+  -moz-border-radius-topright: @radius;
+  -webkit-border-top-right-radius: @radius;
+  border-top-right-radius: @radius;
+}
+
+.border-bottom-right-radius(@radius) {
+  -moz-border-radius-bottomright: @radius;
+  -webkit-border-bottom-right-radius: @radius;
+  border-bottom-right-radius: @radius;
+}
+
+.border-bottom-left-radius(@radius) {
+  -moz-border-radius-bottomleft: @radius;
+  -webkit-border-bottom-left-radius: @radius;
+  border-bottom-left-radius: @radius;
+}
+
+.border-top-left-radius(@radius) {
+  -moz-border-radius-topleft: @radius;
+  -webkit-border-top-left-radius: @radius;
+  border-top-left-radius: @radius;
+}
+
+.border-image(@img) {
+    -webkit-border-image:url(@img) 1 1 round;
+    -moz-border-image:url(@img) 1 1 round;
+    -o-border-image:url(@img) 1 1 round;
+    border-image:url(@img) 1 1 round;
+}
+
+// Override bootstrap's vertical align
+button,
+input,
+select,
+textarea {
+  vertical-align: baseline;
+}
+
+.fakelink {
+  color: @linkColor;
+  cursor: pointer;
+}
+
+ul.errors{
+  display: inline-block;
+  padding: 0 8px;
+  list-style: none;
+}
+
+div.messages-container {
+  width: 50%;
+  li {
+      padding: 4px 8px;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+      border: 1px solid #fbeed5;
+      .border-radius(4px);
+      &.success-message{
+        color: #468847;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+      }
+  }
+}
+
+li.error-message {
+  padding: 4px 8px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  border: 1px solid #fbeed5;
+  .border-radius(@formErrorBorderRadius);
+  background-color: #f2dede;
+  border-color: #eed3d7;
+  color: @formErrorColor;
+}
+
+div.error-container{
+  padding: 1em 0;
+}
+
+.box-sizing-border {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.user-select-none {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.user-select-text {
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -o-user-select: text;
+  user-select: text;
+}

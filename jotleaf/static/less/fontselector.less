@@ -1,0 +1,42 @@
+div.fontselector {
+  .initial {
+    padding:5px;
+    padding-bottom:0;
+    cursor:pointer;
+    border: 1px dotted #ddd;
+    background-color: white;
+    min-height: 1em; 
+  }
+
+  ul {
+    //position: fixed;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    cursor:pointer;
+    max-height: 18em;
+    overflow-y: auto;
+  }
+
+  ul li {
+    padding-left: 10px;
+    min-height: 1em; 
+  }
+
+  ul li:hover {
+    background-color: #dfd;
+  }
+}
+
+div.fontselector.open {
+  .initial {
+    border: 1px solid #666;
+    border-bottom: 1px dashed #666;
+  }
+
+  ul {
+    border: 1px solid #666;
+    border-top: 0;
+  }
+}

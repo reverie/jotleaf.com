@@ -1,0 +1,13 @@
+/jotleaf/localsettings.py
+/jotleaf/stagesettings.py
+*.pyc
+*.sqlite
+*.sqlite-journal
+*.swp
+*.swo
+/static
+/build
+tmp
+/dev_logs
+*.log
+*.sublime*

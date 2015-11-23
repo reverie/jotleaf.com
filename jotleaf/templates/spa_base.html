@@ -1,0 +1,99 @@
+{% load assets %}
+{% load main_tags %}
+<!doctype html>
+<!--[if lt IE 10]><html class="lt-ie10"> <![endif]-->
+<!--[if gt IE 9]><!--> <html> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Jotleaf</title>
+  <meta name="description" content="Jotleaf is a web-based creative medium.">
+  <link rel="stylesheet" href="{{STATIC_URL}}jquery-ui/jquery-ui-1.10.0.css">
+  <link rel="stylesheet" href="{{STATIC_URL}}jquery-tokeninput/styles/token-input.css">
+  <link rel="stylesheet" href="{{STATIC_URL}}css/main_website.css?v={% release_tag %}">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  {% include "ext/mixpanel.html" %}
+  {% block endhead %}{% endblock %}
+</head>
+
+<body class="{% block bodyclass %}{% endblock %}">
+
+  <div id="spa_container"></div>
+
+  <script src="/rendered/config.js"></script>
+
+  {% scripts_to_compile spa_base.html %}
+  <!-- jquery libs -->
+  <script src="{{ STATIC_URL }}js/libs/jquery-1.8.1.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/jquery-ui-1.10.0.min.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/jquery.cookie.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/jquery.tokeninput.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/jquery.timeago.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/jquery.mousewheel.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/jquery.fontselector.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/jquery.scrollview.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/jquery.linkify.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/jquery.embedly-3.0.1.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/placeholder.js"></script>
+
+  <!-- external libs -->
+  <script src="{{ STATIC_URL }}js/libs/webfont.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/spin.min.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/pusher-1.12.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/filepicker.js"></script>
+
+
+  <!-- bootstrap UI libs -->
+  <script src="{{ STATIC_URL }}js/libs/bootstrap-colorpicker.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/bootstrap-dropdown.js"></script>
+
+  <!-- structural libs -->
+  <script src="{{ STATIC_URL }}js/libs/underscore.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/backbone.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/ICanHaz.js"></script>
+  <script src="{{ STATIC_URL }}js/libs/rivets.js"></script>
+  <script src="{{ STATIC_URL }}js/tendon.js"></script>
+  <script src="{{ STATIC_URL }}js/rivets.cfg.js"></script>
+
+  <!-- app code: utilities -->
+  <script src="{{ STATIC_URL }}js/plugins.js"></script>
+  <script src="{{ STATIC_URL }}js/plugins2.js"></script>
+  <script src="{{ STATIC_URL }}js/helpers.js"></script>
+  <script src="{{ STATIC_URL }}js/consolelog.js"></script>
+
+  <!-- app code:  business logic -->
+  <script src="{{ STATIC_URL }}js/models.js"></script>
+  <script src="{{ STATIC_URL }}js/clientdb.js"></script>
+  <script src="{{ STATIC_URL }}js/newdb.js"></script>
+  <script src="{{ STATIC_URL }}js/permissions.js"></script>
+  <script src="{{ STATIC_URL }}js/api.js"></script>
+  <script src="{{ STATIC_URL }}js/assets.js"></script>
+
+  <!-- app code: views -->
+  <script src="{{ STATIC_URL }}js/ui.js"></script>
+  <script src="{{ STATIC_URL }}js/tilingcanvas.js"></script>
+  <script src="{{ STATIC_URL }}js/views_helpers.js"></script>
+  <script src="{{ STATIC_URL }}js/views_base.js"></script>
+  <script src="{{ STATIC_URL }}js/views_components.js"></script>
+  <script src="{{ STATIC_URL }}js/views_errors.js"></script>
+  <script src="{{ STATIC_URL }}js/views_auth.js"></script>
+  <script src="{{ STATIC_URL }}js/views_home.js"></script>
+  <script src="{{ STATIC_URL }}js/views_leaf.js"></script>
+
+  <!-- app code: loader/entry-point  -->
+  <script src="{{ STATIC_URL }}js/loader.js"></script>
+  {% end_scripts_to_compile %}
+
+  {% include "tpl_spa.html" %}
+  {% include "viewer_templates.html" %}
+
+  {% include "ext/fb.html" %}
+  {% include "ext/twitter.html" %}
+  {% include "ext/uservoice.html" %}
+  {% include "ext/goog.html" %}
+  {% include "ext/chrome_frame.html" %}
+  {% include "ext/typekit.html" %}
+
+    <div id="goodbye" style="display: inherit; position: absolute; top: 0px; left: 0px; width: 100%; text-align: center; color: white; background: rgba(102, 102, 102, 102);opacity:.5;">Jotleaf is shutting down on December 1st, 2015. Please take screenshots of all the content you wish to save. We're sorry!</div>
+
+</body>
+</html>

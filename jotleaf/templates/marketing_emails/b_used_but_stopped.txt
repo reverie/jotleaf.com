@@ -1,0 +1,6 @@
+{{ username }},
+
+I noticed that your account was active on Jotleaf for a while, but hasn't been on as much lately. So you're a good person to ask: what would make the site better? What drew you in, and then why did you leave? We'd love to hear your thoughts.
+
+Looking forward to hearing from you!
+{{ sender_name }}

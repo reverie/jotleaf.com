@@ -1,0 +1,6 @@
+{{ username }},
+
+I noticed that your account on Jotleaf has been active for a while now, so we'd love to hear your thoughts. What do you like about the site? What could be improved?
+
+Thanks for trying Jotleaf!
+{{ sender_name }}

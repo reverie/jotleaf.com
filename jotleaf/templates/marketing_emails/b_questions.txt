@@ -1,0 +1,5 @@
+{{ username }},
+
+How's Jotleaf been working for you? What do you think of it so far? If you have any questions about how to use the site, or encounter any issues, please let me know.
+
+{{ sender_name }}

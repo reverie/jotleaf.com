@@ -1,0 +1,6 @@
+Dear {{ username }},
+
+You're getting this email because you have an account on Jotleaf.com. (You signed up around {{ date_joined }}.) The site will be shutting down soon. We appreciate your using Jotleaf, but the continued cost of hosting prevents us from keeping it online much longer. Please take screenshots of any of your pages that you'd like to remember.
+
+Thank you,
+The Jotleaf Team

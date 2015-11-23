@@ -1,0 +1,24 @@
+{% extends "emails/base_email.html" %}
+{% load main_tags %}
+
+{% block body %}
+
+<h4 class="h4">{{ subject }}</h4>
+
+<br>
+{% if title %}
+  <a href="{{ page.really_absolute_url }}">Click here to see '{{ title }}'</a>
+{% else %}
+  <a href="{{ page.really_absolute_url }}">Click here to see the page</a>
+{% endif %}
+<br>
+
+{% if owner %}
+  <br>
+  <a href="{{ owner.really_absolute_url }}">Check out {{ owner.username }}'s Jotleaf profile</a>
+  <br>
+{% endif %}
+
+<br>
+When you're added to a page on Jotleaf, you'll get updates in your news feed about it, and might have special viewing or editing permissions. See your news feed at <a href="{% abs_url 'index' %}">Jotleaf.com</a>.
+{% endblock %}

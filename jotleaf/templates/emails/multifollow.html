@@ -1,0 +1,31 @@
+{% extends "emails/base_email.html" %}
+{% load main_tags %}
+
+{% block body %}
+<h4 class="h4">{{ subject }}</h4>
+
+{% for follower in followers %}
+{% with follower.user as user %}
+<br>
+<h4><a href="{% abs_url 'show_user' user.username %}">{{ user.username }}</a></h4>
+
+{% with user.listed_pages.count as num_listed_pages %}
+{% if num_listed_pages %}
+  Check out {{ user.username }}'s Jotleaf 
+  page{{ num_listed_pages|pluralize }}:
+
+  {% for page in user.sample_pages %}
+  {% if forloop.last and not forloop.first %}and{% endif %}
+  <a href="{{ page.really_absolute_url }}">{{ page.title }}</a>{% if forloop.revcounter0 %},{% endif %}
+  {% endfor %}
+{% endif %}
+{% endwith %}
+
+{% endwith %}
+{% endfor %}
+
+
+<br>
+<br>
+When you follow someone on Jotleaf, you'll get updates in your news feed about pages they publish. See your news feed at <a href="{% abs_url 'index' %}">Jotleaf.com</a>.
+{% endblock %}

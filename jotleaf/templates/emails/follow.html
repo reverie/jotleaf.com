@@ -1,0 +1,24 @@
+{% extends "emails/base_email.html" %}
+{% load main_tags %}
+
+{% block body %}
+
+<h4 class="h4">{{ subject }}</h4>
+
+<a href="{% abs_url 'show_user' user.username %}">Click here to see {{ user.username }}'s profile</a>
+
+<br>
+<br>
+{% if num_listed_pages %}
+  Check out {{ user.username }}'s Jotleaf page{{ num_listed_pages|pluralize }}:
+  {% for page in sample_pages %}
+  {% if forloop.last and not forloop.first %}and{% endif %}
+  <a href="{{ page.really_absolute_url }}">{{ page.title }}</a>{% if forloop.revcounter0 %},{% endif %}
+  {% endfor %}
+
+{% endif %}
+
+<br>
+<br>
+When you follow someone on Jotleaf, you'll get updates in your news feed about pages they publish. See your news feed at <a href="{% abs_url 'index' %}">Jotleaf.com</a>.
+{% endblock %}

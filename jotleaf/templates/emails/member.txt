@@ -1,0 +1,15 @@
+{% load main_tags %}
+{{ subject }}
+
+Check out the page:
+{{ page.really_absolute_url }}
+
+
+When you're added to a page on Jotleaf, you'll get updates in your news feed about it, and might have special viewing or editing permissions. See your news feed at {% abs_url 'index' %}.
+
+------------------------
+Unsubscribe from these emails:
+{{ unsubscribe_url }}
+
+Manage your account settings:
+{{ preferences_url }}

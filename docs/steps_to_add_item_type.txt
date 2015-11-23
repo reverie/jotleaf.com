@@ -1,0 +1,17 @@
+Adding a new Item type is currently too complicated. Here are the steps:
+
+- django model
+-tastypie authorization
+-tastypie resource
+-tastypie page resource link
+-api parsing
+-api writing
+-api URL
+-backbone model
+-backbone view
+-client-side edit template
+-add item to insertion box
+-insertion code switch
+-page view switch
+-default item constructor
+

@@ -1,0 +1,6 @@
+{{ username }},
+
+I noticed that your account has one of the more popular Jotleaf pages of the past couple weeks. That makes you a great person to ask: what do you like about the site? What could be improved? We'd love to hear your thoughts.
+
+Thanks for using Jotleaf!
+{{ sender_name }}

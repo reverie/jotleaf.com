@@ -1,0 +1,14 @@
+{% load main_tags %}
+{{ subject }}
+
+Check out their profile:
+{% abs_url 'show_user' user.username %}
+
+When you follow someone on Jotleaf, you'll get updates in your news feed about pages they publish. See your news feed at {% abs_url 'index' %}.
+
+------------------------
+Unsubscribe from these emails:
+{{ unsubscribe_url }}
+
+Manage your account settings:
+{{ preferences_url }}

@@ -1,0 +1,410 @@
+{% verbatim %}
+
+<script id="tpl_item_editor" type="text/html">
+  <div class="optionsPanel itemEditor" style="display:none">
+    <div class=top-row">
+      <button class="bootstrap-close">&times;</button>
+    </div>
+    <div class='option-set editor-content'>
+      <div class="default-content" style="display:none">
+        Select a text or image item to style it.
+      </div>
+    </div>
+  </div>
+</script>
+
+<script id="tpl_loading_indicator" type="text/html">
+  <div class="loading-container">
+  </div>
+</script>
+
+<script id="tpl_text_item" type="text/html">
+  <div class="content" spellcheck="false"
+    data-rv-color="view:getColor < item.color page.default_textitem_color page.admin_textitem_color page.use_custom_admin_style"
+    data-rv-bg_color="view:getBGColor < item.bg_color page.default_textitem_bg_color page.admin_textitem_bg_color page.use_custom_admin_style"
+    data-rv-font_size="view:getFontSize < item.font_size page.default_textitem_font_size page.admin_textitem_font_size page.use_custom_admin_style"
+    data-rv-font_face="view:getFontFace < item.font page.default_textitem_font page.admin_textitem_font page.use_custom_admin_style"
+  >
+  </div>
+</script>
+
+<script id="tpl_page_deleted" type="text/html">
+  <div class="modal-overlay">
+    <div class="modal-dialog">
+      <h1 class="modal-message">
+        This page has been deleted by the owner.
+      </h1>
+      <div class="link-home">
+        <a class="fakelink" href="/">Return home</a>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script id="tpl_confirm_text_to_image" type="text/html">
+  <div class="confirmation popup arrow-box top">
+    Convert to {{itemType}}?
+    <span class="yes fakelink">Yes</span>
+    <span class="no fakelink">No</span>
+  </div>
+</script>
+
+<script id="tpl_image_item_options" type="text/html">
+  <div class="imageOptions" style="display:none">
+    <h3>Image Style</h3>
+    <div class="option"> 
+      <h4>Border Color</h4>
+      <input class='colorPickerInput' data-color-format="rgba" spellcheck=false>
+    </div> 
+    <div class="option"> 
+      <h4>Border Size</h4>
+        <input class="border-width" type="number" class="fontSizeSpinner" min="0" max="20"> 
+    </div> 
+    <div class="option"> 
+      <h4>Link to URL</h4>
+      <input class="linkInput" type="text">
+    </div> 
+    {{>tpl_item_link}}
+  </div>
+</script>
+
+<script id="tpl_embed_item_options" type="text/html">
+  <div class="embedOptions" style="display:none">
+    <h3>Embed Options</h3>
+    {{>tpl_item_link}}
+  </div>
+</script>
+
+<script id="tpl_leaf_error_message" type="text/html">
+  <div class="error popup arrow-box">{{message}}</div>
+</script>
+
+<script id="tpl_text_item_editor" type="text/html">
+  <div class="textOptions" style="display:none">
+    <h3> Text Style </h3>
+    <div class="option">
+      <h4>Color</h4>
+      <input class='colorPickerInput fg-color' spellcheck=false data-color-format="hex">
+    </div>
+    <div class="option">
+      <h4>Background color</h4>
+      <input class='colorPickerInput bg-color' spellcheck=false data-color-format="rgba"> 
+    </div>
+    <div class="option">
+      <h4>Size</h4>
+      <input type="number" class="fontSizeSpinner" min="4" max="200">
+    </div>
+    <div class="option"> 
+      <h4>Font</h4>
+      <div class="fontselector">
+        <div class="initial"></div>
+        <ul>
+          {{#fonts}}
+          <li data-font-family='{{family}}'>{{displayName}}</li>
+          {{/fonts}}
+        </ul>
+      </div>
+    </div> 
+    <div class="option">
+      <h4>Link to URL</h4>
+      <input class="linkInput" type="text">
+    </div> 
+    {{>tpl_item_link}}
+  </div>
+</script>
+
+<script id="tpl_item_link" type="text/html">
+  <div class="option direct-link">
+    <h4>Direct Link</h4>
+    <textarea type="text" class="direct-link" readonly="readonly" rows="4"></textarea>
+    <div class="tip">
+      A URL going right to this item
+    </div>
+  </div>
+</script>
+
+<script id="tpl_page_viewer_options" type="text/html">
+  <div class="optionsPanel pageOptions" style="display:none">
+    <button class="bootstrap-close">&times;</button>
+    <ul class="tabs-nav">
+      <li class="tabs-tab active first" data-target=".pageStyle">Style</a></li>
+      <li class="tabs-tab" data-target=".pageSettings">Settings</a></li>
+    </ul>
+    <div class="page-options-inner">
+      <div class="tabs-content">
+        <div class="tabs-pane active">
+          {{>tpl_page_style}}
+        </div>
+        <div class="tabs-pane">
+          {{>tpl_page_settings}}
+        </div>
+      </div>
+    </div>
+  </div> 
+</script>
+
+
+<script id="tpl_page_style" type="text/html">
+  <div class="pageStyle">
+    <div class='option-set'>
+      <h3> Background </h3>
+      <div class="option">
+        <h4>Color</h4>
+        <input class='colorPickerInput' data-color-format="hex" data-color="page.bg_color" data-rv-value='page.bg_color' data-rv-bg_color='page.bg_color' spellcheck=false>
+      </div>
+      <div class="option">
+        <h4>Pattern</h4>
+        <div class='clearfix'>
+          <label class="textureOption" data-rv-bg_color='page.bg_color'>
+            <input type='radio' value='' name='bg_texture' data-rv-checked='page.bg_texture'><br> None 
+          </label>
+          <div>
+            <label data-rv-each-texture='view:bgTextureOptions' class='textureOption' data-rv-bg_image='texture:src' data-rv-bg_color='page.bg_color'>
+              <input type='radio' data-rv-value='texture:val' name='bg_texture' data-rv-checked='page.bg_texture'>
+            </label>
+          </div>
+          <label class="textureOption custom-texture-radio">
+            <input type='radio' name='bg_texture'>
+            <br> Custom
+          </label>
+          <label class="textureOption custom-texture-change">
+            <div>Change...</div>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class='option-set'>
+      <h3> Text </h3>
+      <div class="option">
+        <h4>Color</h4>
+        <label> <input class='colorPickerInput' data-color-format="hex" data-color="page.default_textitem_color" data-rv-value='page.default_textitem_color' data-rv-bg_color='page.default_textitem_color' spellcheck=false>
+      </div>
+      <div class="option">
+        <h4>Background color</h4>
+        <input class='colorPickerInput' data-color-format="rgba" data-color="page.default_textitem_bg_color" data-rv-value='page.default_textitem_bg_color' data-rv-bg_color='page.default_textitem_bg_color' spellcheck=false> 
+      </div>
+      <div class="option"> 
+        <label for="default_textitem_font"><h4>Font</h4></label>
+        <div id="fontSelect" class="fontselector">
+          <div class="initial"></div>
+          <ul>
+            <li data-rv-each-font='view:fontOptions' data-rv-fontlistitem='font:font'></li>
+          </ul>
+        </div>
+      </div> 
+      <div class="option"> 
+        <h4>Size</h4>
+        <input class="border-width" type="number" class="fontSizeSpinner" min="6" max="128" data-rv-value='page.default_textitem_font_size'> 
+      </div> 
+      <div class="option">
+        <div class="label">
+          <label> 
+            <input type='checkbox' data-rv-checked='page.use_custom_admin_style'>
+            Distinguish your text
+          </label>
+        </div>
+        <span class="help">Make your text look different than other people's on this page</span>
+      </div>
+
+      <div class='option-set' data-rv-slideshow='page.use_custom_admin_style'>
+        <h3>Your Text</h3>
+        <div class="option label">
+          <label> 
+            <h4>Color</h4>
+            <input class='colorPickerInput' data-color-format="hex" data-color="page.admin_textitem_color" data-rv-value='page.admin_textitem_color' data-rv-bg_color='page.admin_textitem_color' spellcheck=false> 
+          </label>
+        </div>
+        <div class="option label">
+          <label>
+            <h4>Background color</h4>
+            <input class='colorPickerInput' data-color-format="rgba" data-color="page.admin_textitem_bg_color" data-rv-value='page.admin_textitem_bg_color' data-rv-bg_color='page.admin_textitem_bg_color' spellcheck=false>
+          </label>
+        </div>
+        <div class="option label">
+          <label>
+            <h4>Size</h4>
+            <input class="border-width" type="number" class="fontSizeSpinner" min="6" max="128" data-rv-value='page.admin_textitem_font_size'> 
+          </label>
+        </div>
+      </div>
+    </div> 
+  </div>
+</script>
+
+<script id="tpl_page_settings" type="text/html">
+  <div class="pageSettings">
+    {{>tpl_page_title}}
+    {{>tpl_page_permissions}}
+    <div class="members">
+      {{>tpl_page_members}}
+    </div>
+    {{>tpl_page_management}}
+  </div>    
+</script>
+
+<script id="tpl_page_title" type="text/html">
+  <div class="pageTitle">
+    <div class="option-set">
+      <div class="option">
+        <h3>Title</h3>
+        <input type="text" class="title" maxlength="50" name="title">
+      </div>
+    </div>
+  </div>    
+</script>
+
+<script id="tpl_page_permissions" type="text/html">
+  <div class="pagePermissions">
+    <div class="option-set">
+      <div class="option">
+        <h3>Published</h3>
+        <button class="published"></button>
+        <div class="explanation">
+          Published pages can be viewed by anyone, and show up on your profile.
+        </div>
+      </div>
+    </div>
+    <div class="option-set">
+      <h3>Permissions</h3>
+      <div class="option">
+        <h4>Who can write on this page:</h4>
+        <select name="text_writability">
+          <option value="5">Anyone</option>
+          <option value="3">Only members</option>
+          <option value="1">Only me</option>
+        </select>
+      </div>
+      <div class="option">
+        <h4>Who can post images and embeds on this page:</h4>
+        <select name="image_writability">
+          <option value="5">Anyone</option>
+          <option value="3">Only members</option>
+          <option value="1">Only me</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script id="tpl_page_management" type="text/html">
+  <div class="pageManagement">
+    <div class="option-set">
+      <h3> Management </h3>
+      <div class="option">
+        <h4 style="display:inline-block">Clear this page:</h4>
+        <input type="submit" value="Clear" name="clear" class="clear"> 
+        <div style="display:none" class="clear_confirm">
+          Are you sure you want to clear this page?
+          <span class="yes fakelink">Yes</span>
+          <span class="no fakelink">No</span>
+        </div>
+        <div style="display:none" class="clear_progress"></div>
+        <div class="help">Clears all content from the page</div>
+      </div>
+      <div class="option">
+        <h4 style="display:inline-block">Delete this page:</h4>
+          <input type="submit" value="Delete" name="delete" class="delete"> 
+          <div style="display:none" class="delete_confirm">
+            Are you sure you want to delete this page?
+            <span class="yes fakelink">Yes</span>
+            <span class="no fakelink">No</span>
+          </div>
+          <div class="help">Deleting can't be undone!</div>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script id="tpl_page_viewer_members" type="text/html">
+  <div class="pageMembership">
+    <div class="option-set">
+      <h3>Membership</h3>
+      <div class="option">
+        <div class="label">Members:</div>
+        <input type="text" class="memberlist">
+        <div class="progress">&nbsp;</div>
+        <div class="explanation">
+          Members can view the page even when it's unpublished. 
+          You can also grant them special writing permissions.
+        </div>
+      </div>
+    </div>
+  </div> 
+</script>
+
+<!-- TODO: DRY user URL -->
+<script id="tpl_permission_denied" type="text/html">
+  <div>
+    <h1>Private Page</h1>
+    <br>
+    <p>
+      Sorry, you can't view that page.
+    </p>
+    {{#username}}
+    <p>
+      If you're friends with <a href="/{{username}}/">{{username}}</a>, try asking them to add you as a member.
+    </p>
+    {{/username}}
+    <p>
+      <a href="/">Return home</a>
+    </p>
+  </div>
+</script>
+
+<script id="tpl_delete_btn" type="text/html">
+  <div class='delete-btn item-ctrl'><img src="{{STATIC_URL}}images/nounproject/close_btn_6188_128_cropped.png"></div>
+</script>
+
+
+<script id="tpl_insert_img_btn" type="text/html">
+  <img class="insert-img-btn item-ctrl" src="{{STATIC_URL}}images/nounproject/noun_project_541.png">
+</script>
+
+<script id="tpl_imageitem_content" type="text/html">
+  <div class="content"><img src="{{src}}"></div>
+</script>
+
+<script id="tpl_embeditem_content" type="text/html">
+  <div class="content"><div class="invisible-layer"></div></div>
+</script>
+
+<script type="text/html" id="tpl_minimap">
+  <div class="minimap-outer minimized">
+    <div class="minimap-container">
+      <div class="minimap-left"></div>
+      <div class="minimap-inner">
+        <canvas class="minimap-canvas"></canvas>
+        <div class="home-rect"></div>
+        <div class="view-rect"></div>
+      </div>
+      <div class="minimap-right">
+        <div class="minimap-minimize-btn">&raquo;</div>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/html" id="tpl_tutorial">
+  <div>
+    <div class="header clearfix">
+      <span class="title">Tutorial</span>
+      <span class="steps">
+        <span class="prev-step">&laquo;</span>
+        <span class="step-num"></span>/<span class="step-total"></span>
+        <span class="next-step">&raquo;</span>
+      </span>
+    </div>
+
+    <div class="content">
+      <input class="checkbox" type="checkbox" disabled>
+      <span class="instructions"></span>
+    </div>
+
+    <div class="footer">
+      <span class="close">close</span>
+      <span class="kill">never show again</span>
+    </div>
+  </div>
+</script>
+
+{% endverbatim %}

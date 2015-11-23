@@ -1,0 +1,33 @@
+{% extends "emails/base_email.html" %}
+{% load main_tags %}
+
+{% block body %}
+<h4 class="h4">{{ subject }}</h4>
+
+{% for membership in memberships %}
+{% with membership.page as page %}
+{% with membership.page.owner as owner %}
+{% with membership.page.title as title %}
+
+<br>
+{% if owner %}
+  <a href="{{ owner.really_absolute_url }}">{{ owner }}</a> added you to
+{% else %}
+  You were added to
+{% endif %}
+  
+{% if title %}
+  <a href="{{ page.really_absolute_url }}">{{ title }}</a>
+{% else %}
+  <a href="{{ page.really_absolute_url }}">an untitled page</a>
+{% endif %}
+<br>
+
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endfor %}
+
+<br>
+When you're added to a page on Jotleaf, you'll get updates in your news feed about it, and might have special viewing or editing permissions. See your news feed at <a href="{% abs_url 'index' %}">Jotleaf.com</a>.
+{% endblock %}

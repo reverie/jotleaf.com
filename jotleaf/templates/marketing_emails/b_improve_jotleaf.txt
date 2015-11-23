@@ -1,0 +1,9 @@
+{{ username }},
+
+We're asking some of our more active users to help us improve Jotleaf.
+That means you! What problems have you run into with the site? What do
+you think we could add to make it better? Any feedback at all would be
+really appreciated.
+
+Thank you,
+{{ sender_name }}
